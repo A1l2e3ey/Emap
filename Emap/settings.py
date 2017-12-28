@@ -25,7 +25,7 @@ SECRET_KEY = 'yz*ch+##)w9$5w1*ch4&aa@&sqt9#dmt)n8$e-d+kav(wmeclp'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'alexeyemap.pythonanywhere.com']
 
 
 # Application definition
