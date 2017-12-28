@@ -8,7 +8,6 @@ from django.contrib.auth import authenticate, login
 from django.contrib import auth
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from PIL import Image
 from pathlib import Path
 from django.http import HttpResponse
 import smtplib
