@@ -1,0 +1,403 @@
+{% load staticfiles %}
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Profile</title>
+<link rel="stylesheet" type="text/css" href="{% static 'css/main1.css' %}">
+<script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<script src="//yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+
+jQuery(document).ready(function ($) {
+
+	"{% if user.is_authenticated %}"
+
+	var clickprofilemenu = false;
+	var clickyetbuhmenu = false;
+	var clickmybuhmenu = false;
+	var clickmesmenu = false;
+
+	userimg.onclick = function(){
+		if(clickprofilemenu == false){
+			profilemenu.style.display = "block";
+			if(clickmesmenu == true){
+				$('#mesmenu').animate(
+				   {
+				     opacity: "0.0"
+				   }, 400);
+				$('#borderstoryactive2').animate(
+				   {
+				    opacity: "0.0"
+				  }, 400);
+				setTimeout("mybuhmenu.style.display = 'none'; borderstoryactive2.style.display = 'none';", 400);
+				clickmesmenu = false;
+			}
+			$('#profilemenu').animate(
+			  {
+			    opacity: "1.0"
+			  }, 400);
+			clickprofilemenu = true;
+		}
+		else{
+			$('#profilemenu').animate(
+			  {
+			    opacity: "0.0"
+			  }, 400);
+			setTimeout("profilemenu.style.display = 'none';", 400);
+			clickprofilemenu = false;
+		}
+	};
+	yetbuhbut.onclick = function(){
+		x = document.getElementById("storytitle");
+		if(clickyetbuhmenu == false){
+			x.className = "storytitleactive";
+			yetbuhmenu.style.display = "block";
+			borderstoryactive.style.display = "block";
+			if (clickmybuhmenu == true){
+				x = document.getElementById("storytitle1");
+				x.className = "storytitle";
+				$('#mybuhmenu').animate(
+				  {
+				    opacity: "0.0"
+				  }, 400);
+				$('#borderstoryactive1').animate(
+				  {
+				    opacity: "0.0"
+				  }, 400);
+				setTimeout("mybuhmenu.style.display = 'none'; borderstoryactive1.style.display = 'none';", 400);
+				clickmybuhmenu = false;
+			}
+			$('#yetbuhmenu').animate(
+			  {
+			    opacity: "1.0"
+			  }, 400);
+			$('#borderstoryactive').animate(
+			  {
+			    opacity: "1.0"
+			  }, 400);
+			clickyetbuhmenu = true;
+		}
+		else{
+			x.className = "storytitle";
+			$('#yetbuhmenu').animate(
+			  {
+			    opacity: "0.0"
+			  }, 400);
+			$('#borderstoryactive').animate(
+			  {
+			    opacity: "0.0"
+			  }, 400);
+			setTimeout("yetbuhmenu.style.display = 'none'; borderstoryactive.style.display = 'none';", 400);
+			clickyetbuhmenu = false;
+		}
+	};
+	mybuhbut.onclick = function(){
+		x = document.getElementById("storytitle1");
+		if(clickmybuhmenu == false){
+			x.className = "storytitleactive";
+			mybuhmenu.style.display = "block";
+			borderstoryactive1.style.display = "block";
+			if (clickyetbuhmenu == true){
+				x = document.getElementById("storytitle");
+				x.className = "storytitle";
+				$('#yetbuhmenu').animate(
+				  {
+				    opacity: "0.0"
+				  }, 400);
+				$('#borderstoryactive').animate(
+				  {
+				    opacity: "0.0"
+				  }, 400);
+				setTimeout("yetbuhmenu.style.display = 'none'; borderstoryactive.style.display = 'none';", 400);
+				clickyetbuhmenu = false;
+			}
+			$('#mybuhmenu').animate(
+			  {
+			    opacity: "1.0"
+			  }, 400);
+			$('#borderstoryactive1').animate(
+			  {
+			    opacity: "1.0"
+			  }, 400);
+			clickmybuhmenu = true;
+		}
+		else{
+			x.className = "storytitle";
+			$('#mybuhmenu').animate(
+			  {
+			    opacity: "0.0"
+			  }, 400);
+			$('#borderstoryactive1').animate(
+			  {
+			    opacity: "0.0"
+			  }, 400);
+			setTimeout("mybuhmenu.style.display = 'none'; borderstoryactive1.style.display = 'none';", 400);
+			clickmybuhmenu = false;
+		}
+	};
+
+
+	mesbut.onclick = function(){
+		if(clickmesmenu == false){
+			mesmenu.style.display = "block";
+			borderstoryactive2.style.display = "block";
+			if(clickprofilemenu == true){
+				$('#profilemenu').animate(
+				  {
+				    opacity: "0.0"
+				  }, 400);
+				setTimeout("profilemenu.style.display = 'none';", 400);
+				clickprofilemenu = false;
+			}
+			$('#mesmenu').animate(
+			   {
+			     opacity: "1.0"
+			   }, 400);
+			$('#borderstoryactive2').animate(
+			   {
+			     opacity: "1.0"
+			   }, 400);
+			clickmesmenu = true;
+		}
+		else{
+			$('#mesmenu').animate(
+			   {
+			     opacity: "0.0"
+			   }, 400);
+			$('#borderstoryactive2').animate(
+			   {
+			    opacity: "0.0"
+			  }, 400);
+			setTimeout("mesmenu.style.display = 'none'; borderstoryactive2.style.display = 'none';", 400);
+			clickmesmenu = false;
+		}
+	};
+
+	menubutton.onclick = function() {
+		x = document.getElementById("menubutton");
+		y = document.getElementById("menu");
+		z = document.getElementById("mainactive");
+		if (x.className == "menubutton"){
+			x.className = "showbut";
+			y.className = "show";
+			z.className = "mainshow";
+		}
+		else{
+			$("#menubutton").removeClass("showbut");
+			$("#menu").removeClass("show");
+			$("#mainactive").removeClass("mainshow")
+			x.className = "menubutton";
+			y.className = "menu";
+			z.className = "mainactive";
+		}
+	};
+
+	"{% else %}"
+
+	
+
+	"{% endif %}"
+
+});
+</script>
+</head>
+<body>
+<div class="profilemenu" id="profilemenu">
+			<div class="username">
+			{% if user.first_name %}
+				{{ user.first_name }} {{ user.last_name }}
+			{% else %}
+				{{ user.username }}
+			{% endif %}
+			</div>
+			<div class="reiting">
+				Рейтинг: {{ user.reiting.reiting }}
+			</div>
+			<div class="profilemenubut">
+				<a href="/profile{{user.id}}">Профиль</a>
+			</div>
+			<div class="out">
+				<a href="/logout"><img src="/media/out.png"></a><a href="/logout">Выйти</a>
+			</div>
+		</div>
+
+
+
+
+
+		<div class="header">
+			<div class="logo">
+				<a href="/"><img src="/media/logo.png"></a>
+			</div>
+			<div id="story" class="story">
+				<a href="">Всего мероприятий: {{count}}</a>
+			</div>
+			<div id="users" class="story">
+				<a href="/userssearch">Пользователи</a>
+			</div>
+			<div id="yetbuhbut" class="story">
+				<div id="storytitle" class="storytitle">Куда я иду<div id="borderstoryactive" class="borderstoryactive"></div></div>
+				<div class="yetbuhmenu" id="yetbuhmenu">
+				{% if yetbuhmenu|length > 0 %}
+					{% for i in yetbuhmenu %}
+					<a href="/ktoidet{{ i.yourcelebrinfo.index }}">
+					<div class="yetbuhcelebr">
+						<div class="celebrname">{{ i.yourcelebrinfo.name }}</div>
+						<div class="celebrdate">{{i.yourcelebrinfo.date|date:"d.m.Y" }}</div>
+					</div>
+					</a>
+					{% endfor %}
+				{% else %}
+					<div class="yetbuhcelebr">
+						<div class="celebrname">Вы пока никуда не собираетесь</div>
+						<div class="celebrdate"></div>
+					</div>
+				{% endif %}
+					<div class="yetbuhmaincelebrmenu">
+						<a href="/yetbuh{{user.id}}">Показать все</a>
+					</div>
+				</div>
+			</div>
+
+			<div id="mybuhbut" class="story">
+				<div id="storytitle1" class="storytitle">Организованные мной<div id="borderstoryactive1" class="borderstoryactive"></div></div>
+				<div class="yetbuhmenu" id="mybuhmenu">
+				{% if mybuhmenu|length > 0 %}
+					{% for i in mybuhmenu %}
+					<a href="/ktoidet{{ i.index }}">
+					<div class="yetbuhcelebr">
+						<div class="celebrname">{{ i.name }}</div>
+						<div class="celebrdate">{{i.date|date:"d.m.Y" }}</div>
+					</div>
+					</a>
+					{% endfor %}
+				{% else %}
+					<div class="yetbuhcelebr">
+						<div class="celebrname">Вы пока ничего не организовали</div>
+						<div class="celebrdate"></div>
+					</div>
+				{% endif %}
+					<div class="yetbuhmaincelebrmenu">
+						<a href="/mybuh{{user.id}}">Показать все</a>
+					</div>
+				</div>
+			</div>
+			<div id="auth" class="auth">
+				{% if not user.is_authenticated %}
+				<div id="loginbut" class="reg1">
+					Войти
+				</div>
+				<div id="regbut" class="reg2">
+					Регистрация
+				</div>
+				{% else %}
+				<div id="userimg" class="userimg">
+					<img src="{{ user.avatar.image.url }}">
+				</div>
+				{% endif %}
+			</div>
+			{% if user.is_authenticated %}
+			<div id="mesbut" class="message">
+				<div class="mesimg">{% if user.havemessages.havemes == 'False' %}<img src="/media/message.png">{% else %}<img src="/media/havemessage.png">{% endif %}</div>
+				<div id="borderstoryactive2" class="bordermesactive"></div>
+				<div class="mesmenu" id="mesmenu">
+				{% if mes|length > 0 %}
+					{% for i in mes %}
+					<a href="/{{i.ahref}}">
+					<div class="yetbuhcelebr">
+						<div class="celebrname">{{ i.profilename }}{{ i.title }}</div>
+						<div class="celebrdate">{{i.date|date:"d.m.Y" }}</div>
+					</div>
+					</a>
+					{% endfor %}
+				{% else %}
+					<div class="yetbuhcelebr">
+						<div class="celebrname">У вас нет новых сообщений</div>
+						<div class="celebrdate"></div>
+					</div>
+				{% endif %}
+					<div class="yetbuhmaincelebrmenu">
+						<a href="/mes{{user.id}}">Показать все</a>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+<div class="maincontent">
+<div id="mainactive" class="mainactive">
+{% block maincotent %}
+{% endblock %}
+<div class="uinfo">
+<h2>Придут на мероприятие:</h2>
+<ul>
+{% for i in members %}
+<li>
+<div class="members">
+<div class="limg"><a href="/profile{{i.member.id}}"><img src="{{i.member.avatar.image.url}}"></a></div>
+<div class="maininf">
+<div class="name"><a href="/profile{{i.member.id}}">{{ i.member.username }}</a></div>
+<div class="reit">Рейтинг: {{ i.member.reiting.reiting }}</div>
+</div>
+{% if cele.user.id == request.user.id %}
+{% if i.ochenen == 'False' %}
+<div class="cbut">
+<div class="come"><a href="/come{{ i.member.id }}={{ i.cele.index }}">Пришел</a></div>
+<div class="come"><a href="/notcome{{ i.member.id }}={{ i.cele.index }}">Не пришел</a></div>
+</div>
+{% endif %}
+{% endif %}
+</div>
+</li>
+{% endfor %}
+</ul>
+
+<h2>На рассмотрении:</h2>
+<ul>
+{% for i in maybemembers %}
+<li>
+<div class="members">
+<div class="limg"><a href="/profile{{i.member.id}}"><img src="{{i.member.avatar.image.url}}"></a></div>
+<div class="maininf">
+<div class="name"><a href="/profile{{i.member.id}}">{{ i.member.username }}</a></div>
+<div class="reit">Рейтинг: {{ i.member.reiting.reiting }}</div>
+</div>
+{% if cele.user.id == request.user.id %}
+<div class="cbut">
+<div class="come"><a href="/agree{{ i.member.id }}={{ i.cele.index }}">Принимаю</a></div>
+<div class="come"><a href="/notagree{{ i.member.id }}={{ i.cele.index }}">Не принимаю</a></div>
+</div>
+{% endif %}
+</div>
+</li>
+{% endfor %}
+</ul>
+</div>
+</div>
+</div>
+<div id="menubutton" class="menubutton"></div>
+		{% if user.is_authenticated %}
+		<div id="menu" class="menu">
+		<div class="emenu">
+			<div id="elements">
+			<div id="elem2" class="elem1">
+				<a href="/">Карта</a>
+			</div>
+			<div id="elem1" class="elem1">
+				<a href="/friends{{ user.id }}">Друзья</a>
+			</div>
+			<div id="elem3" class="elem1">
+				<a href="/calendar">Календарь</a>
+			</div>
+		</div>
+		</div>
+		</div>
+		{% endif %}
+	<div class="footer">
+
+	</div>
+</body>
+</html>

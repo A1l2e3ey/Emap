@@ -1,0 +1,49 @@
+{% extends 'Emapapp/base/notmap.html' %}
+{% load staticfiles %}
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<meta charset="utf-8">
+{% block header %}
+<script type="text/javascript">
+
+jQuery(document).ready(function ($) {
+	menubutton.onclick = function() {
+		x = document.getElementById("menubutton");
+		y = document.getElementById("menu");
+		z = document.getElementById("mainactive");
+		if (x.className == "menubutton"){
+			x.className = "showbut";
+			y.className = "show";
+			z.className = "mainshow";
+		}
+		else{
+			$("#menubutton").removeClass("showbut");
+			$("#menu").removeClass("show");
+			$("#mainactive").removeClass("mainshow")
+			x.className = "menubutton";
+			y.className = "menu";
+			z.className = "mainactive";
+		}
+	};
+
+});
+</script> 
+{% endblock %}
+</head>
+<body>
+{% block maincontent %}
+<div id="mainactive" class="mainactive">
+{% for i in mes %}
+<div>
+<div>{{i.profilename}}{{ i.title }}</div>
+<div>{{ i.date|date:"SHORT_DATE_FORMAT" }}</div>
+</div>
+{% endfor %}
+</div>
+{% endblock %}
+<div class="footer">
+</div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+{% load staticfiles %}
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="{% static 'css/main1.css' %}" rel="stylesheet" type="text/css">
+<script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<script src="//yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
+</head>
+{% block main %}
+{% endblock %}
+<body>
+<div class="header">
+			<div class="logo">
+				<a href="/"><img src="/media/logo.png"></a>
+			</div>
+			<div id="story" class="story">
+				<a href="/mybuh{{ user.mybuh }}">История мероприятий</a>
+			</div>
+			<div id="users" class="users">
+				<a href="/userssearch">Пользователи</a>
+			</div>
+			<div class="auth">
+				{% if not user.is_authenticated %}
+				<div class="reg1">
+					<a href="/login">Войти</a>
+				</div>
+				<div class="reg2">
+					<a href="/registration">Регистрация</a>
+				</div>
+				{% else %}
+				<div class="userimg">
+					<img src="{{ user.avatar.image.url }}">
+				</div>
+				<div class="profile">
+					<div class="inf">
+						{% if user.first_name %}
+						<div>{{ user.first_name }} {{ user.last_name }}</div>
+						{% else %}
+						<div>{{ user.username }}</div>
+						{% endif %}
+					</div>
+					<div class="outset">
+						<div class="set">
+							<a href="/profile{{user.profile}}"><img src="/media/nast.png""></a>
+						</div>
+						<div class="out">
+							<a href="/logout"><img src="/media/out.png"></a>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+{% if user.is_authenticated %}
+<div class="menu">
+<div id="elem" class="elem1">
+<a href="/">Карта</a>
+</div>
+<div id="form" class="after">
+<form method="POST">
+{% csrf_token %}
+<div class="input">
+<label for="name">Название мероприятия:</label>
+<input name='name' id='name' type="text"></br>
+<label for="descript">Описание мероприятия:</label>
+<textarea name="descript" id="descript"></textarea></br>
+<label for="name">Адрес места проведения:</label>
+<input name='adress' id='adress' type="text"></br>
+<label for="name">Координаты места:</label>
+<input name='incoords' id='incoords' type="text"></br>
+<div class="sub">
+<input type="submit">
+</div>
+</div>
+</form>
+</div>
+{% endif %}
+
+<div id="list" class="list">
+<div class="elem1">
+<a href="/yetbuh{{ user.yetbuh }}">Мои текущие мероприятия</a>
+</div>
+
+</div>
+</div>
+<div class="maincontent">
+<h1>Организованные вами мероприятия:</h1>
+<div class="buhinfo">
+<h2>В данный момент:</h2>
+<table>
+<tbody>
+<tr class="theader">
+<td>Название</td><td>Адрес</td><td>Кол-во участников</td>
+</tr>
+{% for i in info %}
+{% if i.can == "True" %}
+<tr class="standart">
+<td><a href="/ktoidet{{i.index}}">{{i.name}}</a></td>
+<td><a href="/ktoidet{{i.index}}">{{i.adress}}</a></td>
+<td><a href="/ktoidet{{i.index}}">{{i.count}}</a></td>
+</tr>
+{% endif %}
+{% endfor %}
+</tbody>
+</table>
+</div>
+<div class="buhinfo">
+<h2>В прошлом:</h2>
+<table>
+<tbody>
+<tr class="theader">
+<td>Название</td><td>Адрес</td><td>Кол-во участников</td>
+</tr>
+{% for i in info %}
+{% if i.can == "False" %}
+<tr class="standart">
+<td><a href="/ktoidet{{i.index}}">{{i.name}}</a></td>
+<td><a href="/ktoidet{{i.index}}">{{i.adress}}</a></td>
+<td><a href="/ktoidet{{i.index}}">{{i.count}}</a></td>
+</tr>
+{% endif %}
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="footer">
+
+</div>
+</body>
+</html>

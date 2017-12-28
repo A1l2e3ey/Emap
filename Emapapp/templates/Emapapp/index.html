@@ -1,0 +1,853 @@
+{% load staticfiles %}
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link href="{% static 'css/main1.css' %}" rel="stylesheet" type="text/css">
+		<script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+		<script src="//yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
+		<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript">
+
+			// alert(window.location.href);
+
+		    var moscow_map, myPlacemark, metka;
+		    var searchresults = [];
+
+		    var clickorgform = false;
+			
+		    ymaps.ready(init);
+
+		    function init(){
+
+		    	var tr = false;
+		        moscow_map = new ymaps.Map("map", {
+		            center: [55.66, 37.44],
+		            zoom: 9
+		        });
+				var zoomControl = new ymaps.control.ZoomControl({
+				    options: {
+				        position: {
+				        	right: 10,
+				        	left: "auto",
+				        	top: 108,
+				        	bottom: "auto"
+				        }
+				    }
+				});
+
+				var suggestView = new ymaps.SuggestView('adress');
+
+				moscow_map.controls.add(zoomControl);
+					// Отключаем часть включенных по умолчанию поведений:
+					//  - drag - перемещение карты при нажатой левой кнопки мыши;
+					//  - magnifier.rightButton - увеличение области, выделенной правой кнопкой мыши.
+					moscow_map.controls
+				    .remove('searchControl')
+				    .remove('zoomControl')
+				    .remove('rulerControl');
+					// Включаем линейку.
+					//.enable('ruler');
+
+					// Изменяем свойство поведения с помощью опции:
+					// изменение масштаба колесом прокрутки будет происходить медленно,
+					// на 1/2 уровня масштабирования в секунду.
+					//myMap.options.set('scrollZoomSpeed', 0.5);
+				var arr = [];
+				"{% for i in metka %}"
+				"{% if i.last == 'True' %}"
+				"{% if i.can == 'True' or i.index in your or tr == i.user%}"
+					arr.push('{{i.name}}');
+				"{% endif %}"
+				"{% endif %}"
+				"{% endfor %}"
+
+				var find = function (arr, find) {
+				        return arr.filter(function (value) {
+				            return (value + "").toLowerCase().indexOf(find.toLowerCase()) != -1;
+				        });
+				    };
+				var provider = {
+				    suggest: function (request, options) {
+				        var res = find(arr, request),
+				            arrayResult = [],
+				            results = Math.min(options.results, res.length);
+				        for (var i = 0; i < results; i++) {
+				            arrayResult.push({displayName: res[i], value: res[i]})
+				        }
+				        return ymaps.vow.resolve(arrayResult);
+				    }
+				};
+
+				var suggestView = new ymaps.SuggestView('searchcelebr', {provider: provider, results: 3});
+
+				searchcelebrform.onsubmit = function(){
+					"{% for i in metka %}"
+					"{% if i.last == 'True' %}"
+
+					"{% if i.can == 'True' or i.index in your or tr == i.user%}"
+					if(searchcelebr.value == "{{i.name}}"){
+						var x;
+						x = "{{ i.incoords }}".split(', ');
+						moscow_map.setCenter([x[0],x[1]], 11, {
+						    checkZoomRange: true
+						});
+					}
+					"{% endif %}"
+					"{% endif %}"
+					"{% endfor %}"
+					return false;
+				}
+
+
+
+				"{% for i in metka %}"
+
+				var x;
+
+				x = "{{ i.incoords }}".split(', ');
+
+				"{% if i.last == 'True' %}"
+
+				"{% if i.can == 'True' or i.index in your or tr == i.user%}"
+
+				metka = new ymaps.Placemark([x[0], x[1]], {
+					balloonContentHeader: "<div>{{i.name}}</div>",
+		            balloonContentBody: "<div style='font-size: 12pt; color: black; margin-bottom: 5px;'>Организатор: <a href='/profile{{i.user.id}}'>{{i.user}}</a></div><div>{{i.descript}}</div><div>Условие: {{i.thing}}</div><div>{{i.date|date:'d.m.Y H:i'}}</div>",
+		            balloonContentFooter: "<div>{{i.adress}}</div><div>Придут: {{i.count}}/{{ i.quantity }}</div><div>На рассмотрении: {{i.maybecount}}</div><div class='pbut'>{% if request.user.is_authenticated %}{% if i.user == tr %}<a href='/ktoidet{{i.index}}'>Человек собрано: {{i.count}}/{{ i.quantity }}</a>{% else %}{% if i.index in your or i.index in maybeyour %}<a href='/otpis{{i.index}}'>Я не приеду</a>{% else %}<a href='/podpis{{i.index}}'>Я приеду</a>{% endif %}{% endif %}{% else %} {% endif %}</div>"
+				}, {
+					{% if i.index in your or i.index in maybeyour or tr == i.user %}
+			        preset: 'islands#darkBlueDotIconWithCaption'
+					{% else %}
+					preset: 'islands#violetDotIconWithCaption'
+					{% endif %}
+			    });
+
+			    moscow_map.geoObjects.add(metka);
+			    "{% endif %}"
+
+			    "{% endif %}"
+
+			    "{% endfor %}"
+			    
+			    adress.onkeyup = function(){
+					ymaps.geocode(adress.value, {}).then(function (res) {
+			            // Выбираем первый результат геокодирования.
+			            var firstGeoObject = res.geoObjects.get(0),
+			                // Координаты геообъекта.
+			                coords = firstGeoObject.geometry.getCoordinates();
+
+						    incoords.value = [coords[0].toPrecision(6),coords[1].toPrecision(6)].join(', ');
+
+						    if (!myPlacemark) {
+								myPlacemark = new ymaps.Placemark([coords[0].toPrecision(6), coords[1].toPrecision(6)], {}, {
+							        preset: 'islands#redDotIcon',
+							        draggable: false
+							    });
+
+								moscow_map.geoObjects.add(myPlacemark);
+							}
+							else {
+								myPlacemark.geometry.setCoordinates(coords);
+							}
+		            });
+				};
+
+				moscow_map.events.add('click', function (e) {
+					var coords = e.get('coords');
+					if(clickorgform === true){
+						if (!myPlacemark) {
+							myPlacemark = new ymaps.Placemark([coords[0].toPrecision(6), coords[1].toPrecision(6)], {}, {
+						        preset: 'islands#redDotIcon',
+						        draggable: false
+						    });
+
+						    incoords.value = [coords[0].toPrecision(6),coords[1].toPrecision(6)].join(', ');
+
+							moscow_map.geoObjects.add(myPlacemark);
+						}
+						else {
+							myPlacemark.geometry.setCoordinates(coords);
+							incoords.value = [coords[0].toPrecision(6),coords[1].toPrecision(6)].join(', ');
+						}
+						getAddress(coords);
+					}
+				});
+				
+				function getAddress(coords) {
+			        ymaps.geocode(coords).then(function (res) {
+			            var firstGeoObject = res.geoObjects.get(0);
+
+			            adress.value = firstGeoObject.getAddressLine();
+
+			        });
+			    }
+
+			    elem.onclick = function() {
+					if(clickorgform == false){
+						$('#elements').animate(
+						  {
+						    opacity: "0.0"
+						  }, 400);
+						setTimeout('form.style.display = "block";elements.style.display = "none"; $("#menu").animate({width: "40%"}, 400); $("#form").animate({opacity: "1.0"}, 400);',400);
+						clickorgform = true;
+					}
+					else{
+						$('#menu').animate(
+						  {
+						    width: "20%"
+						  }, 400);
+						$('#form').animate(
+						  {
+						    opacity: "0.0"
+						  }, 400);
+						setTimeout('elements.style.display = "block"; form.style.display = "none";$("#elements").animate({opacity: "1.0"}, 400);',400);
+						clickorgform = false;
+					}
+				};
+				elem2.onclick = function() {
+					x = document.getElementById('unselectk');
+					if(x.className === "unselectk"){
+						x.className = "selectk";
+						elem1.style.display = "none";
+						elem3.style.display = "none";
+						tr = false;
+					}
+					else{
+						x.className = "unselectk";
+						elem1.style.display = "block";
+						elem3.style.display = "block";
+						tr = true;
+					}
+				};
+				
+
+		    };
+
+		jQuery(document).ready(function ($) {
+
+			menubutton.onclick = function() {
+				x = document.getElementById("menubutton");
+				y = document.getElementById("menu");
+				if (x.className == "menubutton"){
+					x.className = "showbut";
+					y.className = "show";
+				}
+				else{
+					$("#menubutton").removeClass("showbut");
+					$("#menu").removeClass("show");
+					x.className = "menubutton";
+					y.className = "menu";
+				}
+			};
+
+			"{% if user.is_authenticated %}"
+
+			var clickprofilemenu = false;
+			var clickyetbuhmenu = false;
+			var clickmybuhmenu = false;
+			var clickmesmenu = false;
+
+			date.onkeydown = function(){
+				x = date.value;
+				if (event.keyCode != 8){
+					if (x.length == 2){
+						date.value = date.value + '.';
+					}
+					if (x.length == 5){
+						date.value = date.value + '.';
+					}
+				}
+
+				if(x.length == 0 && event.keyCode > 51){
+					event.preventDefault();
+				}
+				if(x.length == 1 && x[0] == '3' && event.keyCode > 49){
+					event.preventDefault();
+				}
+				if(x.length == 3 && event.keyCode > 49){
+					event.preventDefault();
+				}
+				if(x.length == 4 && x[3] == '1' && event.keyCode > 50){
+					event.preventDefault();
+				}
+			};
+
+			time.onkeyup = function(){
+				x = time.value;
+				if ((event.keyCode > 47 && event.keyCode < 58) || event.keyCode == 8){
+					if (event.keyCode != 8){
+						if(x.length == 2){
+							time.value = time.value + ':';
+						}
+					}
+					if(x.length > 3){
+						if(Number(x[3]) > 5){
+							this.style.backgroundColor = 'red';
+						}
+						else{
+							this.style.backgroundColor = '';
+						}
+					}
+				}
+			};
+
+			time.onkeypress = function(){
+				if (!(event.keyCode > 47 && event.keyCode < 58) || event.keyCode == 8){
+					return false;
+				}
+			}
+
+			userimg.onclick = function(){
+				if(clickprofilemenu == false){
+					profilemenu.style.display = "block";
+					if(clickmesmenu == true){
+						$('#mesmenu').animate(
+						   {
+						     opacity: "0.0"
+						   }, 400);
+						$('#borderstoryactive2').animate(
+						   {
+						    opacity: "0.0"
+						  }, 400);
+						setTimeout("mybuhmenu.style.display = 'none'; borderstoryactive2.style.display = 'none';", 400);
+						clickmesmenu = false;
+					}
+					$('#profilemenu').animate(
+					  {
+					    opacity: "1.0"
+					  }, 400);
+					clickprofilemenu = true;
+				}
+				else{
+					$('#profilemenu').animate(
+					  {
+					    opacity: "0.0"
+					  }, 400);
+					setTimeout("profilemenu.style.display = 'none';", 400);
+					clickprofilemenu = false;
+				}
+			};
+			yetbuhbut.onclick = function(){
+				x = document.getElementById("storytitle");
+				if(clickyetbuhmenu == false){
+					x.className = "storytitleactive";
+					yetbuhmenu.style.display = "block";
+					borderstoryactive.style.display = "block";
+					if (clickmybuhmenu == true){
+						x = document.getElementById("storytitle1");
+						x.className = "storytitle";
+						$('#mybuhmenu').animate(
+						  {
+						    opacity: "0.0"
+						  }, 400);
+						$('#borderstoryactive1').animate(
+						  {
+						    opacity: "0.0"
+						  }, 400);
+						setTimeout("mybuhmenu.style.display = 'none'; borderstoryactive1.style.display = 'none';", 400);
+						clickmybuhmenu = false;
+					}
+					$('#yetbuhmenu').animate(
+					  {
+					    opacity: "1.0"
+					  }, 400);
+					$('#borderstoryactive').animate(
+					  {
+					    opacity: "1.0"
+					  }, 400);
+					clickyetbuhmenu = true;
+				}
+				else{
+					x.className = "storytitle";
+					$('#yetbuhmenu').animate(
+					  {
+					    opacity: "0.0"
+					  }, 400);
+					$('#borderstoryactive').animate(
+					  {
+					    opacity: "0.0"
+					  }, 400);
+					setTimeout("yetbuhmenu.style.display = 'none'; borderstoryactive.style.display = 'none';", 400);
+					clickyetbuhmenu = false;
+				}
+			};
+			mybuhbut.onclick = function(){
+				x = document.getElementById("storytitle1");
+				if(clickmybuhmenu == false){
+					x.className = "storytitleactive";
+					mybuhmenu.style.display = "block";
+					borderstoryactive1.style.display = "block";
+					if (clickyetbuhmenu == true){
+						x = document.getElementById("storytitle");
+						x.className = "storytitle";
+						$('#yetbuhmenu').animate(
+						  {
+						    opacity: "0.0"
+						  }, 400);
+						$('#borderstoryactive').animate(
+						  {
+						    opacity: "0.0"
+						  }, 400);
+						setTimeout("yetbuhmenu.style.display = 'none'; borderstoryactive.style.display = 'none';", 400);
+						clickyetbuhmenu = false;
+					}
+					$('#mybuhmenu').animate(
+					  {
+					    opacity: "1.0"
+					  }, 400);
+					$('#borderstoryactive1').animate(
+					  {
+					    opacity: "1.0"
+					  }, 400);
+					clickmybuhmenu = true;
+				}
+				else{
+					x.className = "storytitle";
+					$('#mybuhmenu').animate(
+					  {
+					    opacity: "0.0"
+					  }, 400);
+					$('#borderstoryactive1').animate(
+					  {
+					    opacity: "0.0"
+					  }, 400);
+					setTimeout("mybuhmenu.style.display = 'none'; borderstoryactive1.style.display = 'none';", 400);
+					clickmybuhmenu = false;
+				}
+			};
+
+
+			mesbut.onclick = function(){
+				if(clickmesmenu == false){
+					mesmenu.style.display = "block";
+					borderstoryactive2.style.display = "block";
+					if(clickprofilemenu == true){
+						$('#profilemenu').animate(
+						  {
+						    opacity: "0.0"
+						  }, 400);
+						setTimeout("profilemenu.style.display = 'none';", 400);
+						clickprofilemenu = false;
+					}
+					$('#mesmenu').animate(
+					   {
+					     opacity: "1.0"
+					   }, 400);
+					$('#borderstoryactive2').animate(
+					   {
+					     opacity: "1.0"
+					   }, 400);
+					clickmesmenu = true;
+				}
+				else{
+					$('#mesmenu').animate(
+					   {
+					     opacity: "0.0"
+					   }, 400);
+					$('#borderstoryactive2').animate(
+					   {
+					    opacity: "0.0"
+					  }, 400);
+					setTimeout("mesmenu.style.display = 'none'; borderstoryactive2.style.display = 'none';", 400);
+					clickmesmenu = false;
+				}
+			};
+
+			$('#kategory').change(function(){ 
+			    var value = $(this).val();
+			    if (value == 1){
+					alert(value);
+
+					moscow_map.geoObjects.removeAll();
+
+					"{% for i in metka %}"
+					"{% if i.kategory == '1' %}"
+
+					var x;
+
+					x = "{{ i.incoords }}".split(', ');
+
+					"{% if i.last == 'True' %}"
+
+					"{% if i.can == 'True' or i.index in your or tr == i.user%}"
+
+					metka = new ymaps.Placemark([x[0], x[1]], {
+						balloonContentHeader: "{{i.name}} Организатор:{{i.user}}",
+			            balloonContentBody: "<div>{{i.descript}}</div>",
+			            balloonContentFooter: "{{i.adress}} Придут: {{i.count}}/{{ i.quantity }} <div class='pbut'>{% if request.user.is_authenticated %}{% if i.user == tr %}<a href='/ktoidet{{i.index}}'>Человек собрано: {{i.count}}/{{ i.quantity }}</a>{% else %}{% if i.index in your %}<a href='/otpis{{i.index}}'>Я не приеду</a>{% else %}<a href='/podpis{{i.index}}'>Я приеду</a>{% endif %}{% endif %}{% else %}<a href='/registration'>Я приеду</a>{% endif %}</div>"
+					}, {
+						{% if i.index in your or i.index in maybeyour or tr == i.user %}
+				        preset: 'islands#darkBlueDotIconWithCaption'
+						{% else %}
+						preset: 'islands#violetDotIconWithCaption'
+						{% endif %}
+				    });
+
+				    moscow_map.geoObjects.add(metka);
+				    "{% endif %}"
+				    "{% endif %}"
+				    "{% endif %}"
+
+				    "{% endfor %}"
+				}
+				if (value == 2){
+					alert(value);
+
+					moscow_map.geoObjects.removeAll();
+
+					"{% for i in metka %}"
+					"{% if i.kategory == '2' %}"
+
+					var x;
+
+					x = "{{ i.incoords }}".split(', ');
+
+					"{% if i.last == 'True' %}"
+
+					"{% if i.can == 'True' or i.index in your or tr == i.user%}"
+
+					metka = new ymaps.Placemark([x[0], x[1]], {
+						balloonContentHeader: "{{i.name}} Организатор:{{i.user}}",
+			            balloonContentBody: "<div>{{i.descript}}</div>",
+			            balloonContentFooter: "{{i.adress}} Придут: {{i.count}}/{{ i.quantity }} <div class='pbut'>{% if request.user.is_authenticated %}{% if i.user == tr %}<a href='/ktoidet{{i.index}}'>Человек собрано: {{i.count}}/{{ i.quantity }}</a>{% else %}{% if i.index in your %}<a href='/otpis{{i.index}}'>Я не приеду</a>{% else %}<a href='/podpis{{i.index}}'>Я приеду</a>{% endif %}{% endif %}{% else %}<a href='/registration'>Я приеду</a>{% endif %}</div>"
+					}, {
+						{% if i.index in your or i.index in maybeyour or tr == i.user %}
+				        preset: 'islands#darkBlueDotIconWithCaption'
+						{% else %}
+						preset: 'islands#violetDotIconWithCaption'
+						{% endif %}
+				    });
+
+				    moscow_map.geoObjects.add(metka);
+				    "{% endif %}"
+				    "{% endif %}"
+				    "{% endif %}"
+
+				    "{% endfor %}"
+				}
+			});
+
+
+				// b[i].onclick = function() {
+				// 	alert('r');
+				// 	var x;
+				// 	x = "{{ i.incoords }}".split(', ');
+				// 	moscow_map.setCenter([x[0],x[1]], 11, {
+				// 	    checkZoomRange: true
+				// 	});
+				// };
+
+			// "{% for i in metka %}"
+			// "{% if i.can == 'True' or i.index in your or tr == i.user %}"
+			// alert('fg');
+			// 	var b = document.getElementById("l{{i.index}}");
+			// 	alert(b);
+			// 	b.onclick = function() {
+			// 		alert('r');
+			// 		var x;
+			// 		x = "{{ i.incoords }}".split(', ');
+			// 		moscow_map.setCenter([x[0],x[1]], 11, {
+			// 		    checkZoomRange: true
+			// 		});
+			// 	};
+			// "{% endif %}"
+			// "{% endfor %}"
+
+			"{% else %}"
+
+			loginbut.onclick = function(){
+				loginform.style.display = "block";
+				mask.style.display = "block";
+				x = document.getElementById("log");
+				x.className = "afterbut";
+				logintext.style.display = "block";
+			};
+			regbut.onclick = function(){
+				loginform.style.display = "block";
+				mask.style.display = "block";
+				x = document.getElementById("reg");
+				x.className = "afterbut";
+				regtext.style.display = "block";
+			};
+
+			log.onclick = function(){
+				x = document.getElementById("log");
+				x.className = "afterbut";
+				logintext.style.display = "block";
+				x = document.getElementById("reg");
+				x.className = "beforebut";
+				regtext.style.display = "none";
+			};
+			reg.onclick = function(){
+				x = document.getElementById("reg");
+				x.className = "afterbut";
+				regtext.style.display = "block";
+				x = document.getElementById("log");
+				x.className = "beforebut";
+				logintext.style.display = "none";
+			};
+
+			loginclose.onclick = function(){
+				loginform.style.display = "none";
+				mask.style.display = "none";
+				x = document.getElementById("reg");
+				x.className = "beforebut";
+				regtext.style.display = "none";
+				x = document.getElementById("log");
+				x.className = "beforebut";
+				logintext.style.display = "none";
+			};
+
+			"{% endif %}"
+
+		});
+		</script>
+		{% block header %}
+		{% endblock %}
+	</head>
+	<body>
+		<div class="loginform" id="loginform">
+			<div class="loginclose" id="loginclose"><img src="/media/cancel.png"></div>
+				<div class="changebut">
+					<div id="log" class="beforebut">
+						Вход
+					</div>
+					<div id="reg" class="beforebut">
+						Регистрация
+					</div>
+				</div>
+			<form method="POST">
+				{% csrf_token %}
+				<div id="logintext" class="logintext">
+					<div class="login">
+						<input type="text" id="login" name="login" placeholder="Ваш логин">
+					</div>
+					<div>
+						<input type="password" id="password" name="password" placeholder="Пароль">
+					</div>
+					<div class="logsubbutdiv"><input class="logsubbut" type="submit" value="Авторизироваться"></div>
+				</div>
+			</form>
+			<form method="POST">
+				{% csrf_token %}
+				<div id="regtext" class="regtext">
+					<div class="inp">
+						<input type="text" name="username" id="username" placeholder="Придумайте логин">
+					</div>
+					<div class="inp">
+						<input type="text" name="email" id="email" placeholder="Введите почтовый ящик">
+					</div>
+					<div class="inp">
+						<input type="password" name="password" id="password" placeholder="Введите пароль">
+						<input type="password" name="password2" id="password2" placeholder="Введите пароль еще раз">
+					</div>
+						<div class="logsubbutdiv"><input class="logsubbut" type="submit" value="Зарегистрироваться"></div>
+				</div>
+			</form>
+		</div>
+		<div id="mask"></div>
+
+		<div class="profilemenu" id="profilemenu">
+			<div class="username">
+			{% if user.first_name %}
+				{{ user.first_name }} {{ user.last_name }}
+			{% else %}
+				{{ user.username }}
+			{% endif %}
+			</div>
+			<div class="reiting">
+				Рейтинг: {{ user.reiting.reiting }}
+			</div>
+			<div class="profilemenubut">
+				<a href="/profile{{user.id}}">Профиль</a>
+			</div>
+			<div class="out">
+				<a href="/logout"><img src="/media/out.png"></a><a href="/logout">Выйти</a>
+			</div>
+		</div>
+
+
+
+
+
+		<div class="header">
+			<div class="logo">
+				<a href="/"><img src="/media/logo.png"></a>
+			</div>
+			<div id="story" class="story">
+				<a href="">Всего мероприятий: {{count}}</a>
+			</div>
+			<div id="users" class="story">
+				<a href="/userssearch">Пользователи</a>
+			</div>
+			<div id="yetbuhbut" class="story">
+				<div id="storytitle" class="storytitle">Куда я иду<div id="borderstoryactive" class="borderstoryactive"></div></div>
+				<div class="yetbuhmenu" id="yetbuhmenu">
+				{% if yetbuhmenu|length > 0 %}
+					{% for i in yetbuhmenu %}
+					<a href="/ktoidet{{ i.yourcelebrinfo.index }}">
+					<div class="yetbuhcelebr">
+						<div class="celebrname">{{ i.yourcelebrinfo.name }}</div>
+						<div class="celebrdate">{{i.yourcelebrinfo.date|date:"d.m.Y" }}</div>
+					</div>
+					</a>
+					{% endfor %}
+				{% else %}
+					<div class="yetbuhcelebr">
+						<div class="celebrname">Вы пока никуда не собираетесь</div>
+						<div class="celebrdate"></div>
+					</div>
+				{% endif %}
+					<div class="yetbuhmaincelebrmenu">
+						<a href="/yetbuh{{user.id}}">Показать все</a>
+					</div>
+				</div>
+			</div>
+
+			<div id="mybuhbut" class="story">
+				<div id="storytitle1" class="storytitle">Организованные мной<div id="borderstoryactive1" class="borderstoryactive"></div></div>
+				<div class="yetbuhmenu" id="mybuhmenu">
+				{% if mybuhmenu|length > 0 %}
+					{% for i in mybuhmenu %}
+					<a href="/ktoidet{{ i.index }}">
+					<div class="yetbuhcelebr">
+						<div class="celebrname">{{ i.name }}</div>
+						<div class="celebrdate">{{i.date|date:"d.m.Y" }}</div>
+					</div>
+					</a>
+					{% endfor %}
+				{% else %}
+					<div class="yetbuhcelebr">
+						<div class="celebrname">Вы пока ничего не организовали</div>
+						<div class="celebrdate"></div>
+					</div>
+				{% endif %}
+					<div class="yetbuhmaincelebrmenu">
+						<a href="/mybuh{{user.id}}">Показать все</a>
+					</div>
+				</div>
+			</div>
+			<div id="auth" class="auth">
+				{% if not user.is_authenticated %}
+				<div id="loginbut" class="reg1">
+					Войти
+				</div>
+				<div id="regbut" class="reg2">
+					Регистрация
+				</div>
+				{% else %}
+				<div id="userimg" class="userimg">
+					<img src="{{ user.avatar.image.url }}">
+				</div>
+				{% endif %}
+			</div>
+			{% if user.is_authenticated %}
+			<div id="mesbut" class="message">
+				<div class="mesimg">{% if user.havemessages.havemes == 'False' %}<img src="/media/message.png">{% else %}<img src="/media/havemessage.png">{% endif %}</div>
+				<div id="borderstoryactive2" class="bordermesactive"></div>
+				<div class="mesmenu" id="mesmenu">
+				{% if mes|length > 0 %}
+					{% for i in mes %}
+					<a href="/{{i.ahref}}">
+					<div class="yetbuhcelebr">
+						<div class="celebrname">{{ i.profilename }}{{ i.title }}</div>
+						<div class="celebrdate">{{i.date|date:"d.m.Y" }}</div>
+					</div>
+					</a>
+					{% endfor %}
+				{% else %}
+					<div class="yetbuhcelebr">
+						<div class="celebrname">У вас нет новых сообщений</div>
+						<div class="celebrdate"></div>
+					</div>
+				{% endif %}
+					<div class="yetbuhmaincelebrmenu">
+						<a href="/mes{{user.id}}">Показать все</a>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+		<div id="maincontent" class="maincontent">
+		{% block maincontent %}
+			<div class="map" id="map">
+				
+			</div>
+		{% endblock %}
+		</div>
+		{% block menu %}
+		{% endblock %}
+		<div id="menubutton" class="menubutton"></div>
+		{% if user.is_authenticated %}
+		<div id="menu" class="menu">
+		<div class="searchcelebr">
+			<form method="post" id="searchcelebrform">
+				<input type="text" name="searchcelebr" id="searchcelebr">
+				<div><input type="submit" value="поиск" id="scelebr"></div>
+			</form>
+		</div>
+		<div class="emenu">
+			<div onselectstart="return false" id="elem" class="elem">
+				Организовать
+			</div>
+			<div id="elements">
+			<div onselectstart="return false" id="elem2" class="elem2">
+				Фильтр
+			</div>
+			<div id="elem1" class="elem1">
+				<a href="/friends{{ user.id }}">Друзья</a>
+			</div>
+			<div id="elem3" class="elem1">
+				<a href="/calendar">Календарь</a>
+			</div>
+
+		<div id="unselectk" class="unselectk">
+				<div class="kategorydiv">
+				<select name='kategory' id='kategory'>
+					<option value="1">Бухич на улице</option>
+					<option value="2">Бухич на хате</option>
+				</select>
+				</div>
+			</div>
+			<div id="list" class="list">
+			<h2>Новые мероприятия:</h2>
+			<ul id="listul">
+				
+			</ul>
+		</div>
+		</div>
+		<div id="form" class="form">
+		<form id="organisationform" method="POST">
+			{% csrf_token %}
+			<div class="input">
+				<input name='name' id='name' type="text" placeholder="Название мероприятия:"></br>
+				<textarea name="descript" id="descript" placeholder="Описание мероприятия:"></textarea></br>
+				<input name='adress' id='adress' type="text" placeholder="Адрес проведения:"></br>
+				<input name='thing' id='thing' type="text" placeholder="Условие:"></br>
+				<select name='kategory' id='kategory'>
+					<option>Выберите категорию</option>
+					<option value="1">Бухич на улице</option>
+					<option value="2">Бухич на хате</option>
+				</select></br>
+				<input name="date" id="date" type="text" placeholder="21.12.2017" maxlength="10">
+				<input name="time" id="time" type="text" placeholder="20:30" maxlength="5">
+				<input name="quantity" id="quantity" type="text" placeholder="Количество:">
+				<input style="display: none;" name='incoords' id='incoords' type="text" placeholder="Координаты места:"></br>
+			</div>
+			<div class="logsubbutdiv"><input id="organisationsub" class="logsubbut" type="submit" value="Организовать"></div>
+		</form>
+		</div>
+		</div>
+		</div>
+		{% endif %}
+		<div class="footer">
+
+		</div>
+		<div>
+
+		</div>
+	</body>
+</html>

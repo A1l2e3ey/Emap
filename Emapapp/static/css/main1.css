@@ -1,0 +1,1075 @@
+body{
+    margin:0;
+}
+a{
+    color: black;
+    text-decoration: none;
+}
+.loginform{
+    width: 400px;
+    margin: 0 auto;
+    background-color: white;
+    display: none;
+    position: absolute;
+    top: 100px;
+    left:50%; 
+    margin-left:-200px;
+    z-index: 999;
+    border-radius: 25px;
+    border: 2px black solid;
+}
+#mask {
+    background-color:rgba(0,0,0,.3);
+    height:100%;
+    position:fixed;
+    width:100%;
+    top:0;
+    z-index: 899;
+    display:none;
+    left:0;
+}
+.loginform #login, .loginform #password{
+    margin-bottom: 20px;
+    width: 80%;
+    margin-right: 10%;
+    margin-left: 10%;
+    height: 30px;
+}
+.logintext{
+    display: none;
+}
+.regtext{
+    display: none;
+}
+.regtext .inp input{
+    margin-bottom: 20px;
+    width: 80%;
+    margin-right: 10%;
+    margin-left: 10%;
+    height: 30px;
+}
+.changebut{
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 20px;
+    height: 23px;
+    margin-bottom: 25px;
+}
+.changebut .beforebut{
+    float: left;
+    border-bottom: 2px solid #b5b5b5;
+    font-size: 15pt;
+    width: 150px;
+    color: #b5b5b5;
+    cursor: pointer;
+    text-align: center;
+}
+.changebut .afterbut{
+    color: black;
+    float: left;
+    font-size: 15pt;
+    text-align: center;
+    border-bottom: 3px solid black;
+    cursor: pointer;
+    width: 150px;
+}
+.loginclose{
+    width: 35px;
+    height: 35px;
+    float: right;
+    cursor: pointer;
+}
+.loginclose img{
+    width: 100%;
+    height: 100%;
+}
+.logsubbut{
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 0;
+    background-color: #b5b5b5;
+    outline: none;
+    font-size: 15pt;
+}
+.logsubbutdiv{
+    margin: 0 auto;
+    width: 200px;
+    height: 45px;
+    margin-bottom: 30px;
+}
+.logsubbut:hover{
+    background-color: #c9c9c9;
+    cursor: pointer;
+}
+
+
+
+
+.header{
+    width: 100%;
+    height: 80px;
+    border-bottom: 2px #b5b5b5 solid;
+}
+
+.story{
+    margin-top: 30px;
+    margin-left: 15px;
+    float: left;
+    font-size: 14pt;
+    text-decoration: none;
+}
+.story .storytitle{
+    transition-duration: 0.5s;
+    color: black;
+}
+.story .storytitleactive{
+    transition-duration: 0.5s;
+    color: #b5b5b5;
+}
+.story a{
+    font-size: 14pt;
+    color: black;
+    text-decoration: none;
+    transition-duration: 0.5s;
+}
+.story:hover .storytitle{
+    color: #b5b5b5;
+    cursor: pointer;
+}
+.story:hover .storytitleactive{
+    cursor: pointer;
+}
+.users{
+    margin-top: 30px;
+    margin-left: 10px;
+    float: left;
+}
+.users a{
+    color: black;
+    font-size: 14pt;
+    text-decoration: none;
+    transition-duration: 0.5s;
+}
+.users a:hover{
+    color: #b5b5b5;
+}
+.reg1{
+    position: absolute;
+    top: 15px;
+    right: 200px;
+    width: 100px;
+    height: 40px;
+    border: 2px grey solid;
+    transition-duration: 0.6s;
+}
+.reg2{
+    position: absolute;
+    top: 15px;
+    right: 75px;
+    width: 100px;
+    height: 40px;
+    border: 2px grey solid;
+    transition-duration: 0.6s;
+}
+.reg1:hover, .reg2:hover{
+    border: 2px black solid;
+    cursor: pointer;
+}
+.reg1, .reg2{
+    color: grey;
+    line-height: 40px;
+    text-decoration: none;
+    text-align: center;
+    transition-duration: 0.6s;
+    display: block;
+}
+.reg1:hover, .reg2:hover{
+    color: black;
+}
+.logo{
+    float: left;
+    padding-top: 15px;
+    padding-left: 10px;
+}
+.logo img{
+    height: 60px;
+    width: 150px;
+}
+.auth {
+    float: right;
+    margin-right: 20px;
+    margin-top: 5px;
+}
+#profile{
+    float: left;
+    padding-left: 10px;
+}
+.inf{
+    font-size: 18pt;
+    padding-top: 10px;
+}
+.userimg{
+    width: 70px;
+    height: 70px;
+    float: left;
+    border-radius: 50px;
+}
+.userimg:hover{
+    cursor: pointer;
+}
+.userimg img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+}
+.message{
+    width: 50px;
+    float: right;
+    margin-top: 20px;
+    margin-right: 25px;
+}
+.mesimg{
+    width: 50px;
+    transition-duration: 0.5s;
+}
+.mesimg:hover{
+    transform: translateY(-5px);
+    cursor: pointer;
+}
+.message img{
+    width: 100%;
+    height: 100%;
+}
+.outset{
+    float: right;
+}
+.out img{
+    width: 30px;
+    height: 30px;
+}
+.set{
+    float: left;
+    padding-top: 3px;
+}
+.set img{
+    width: 25px;
+    height: 25px;
+}
+
+
+.maincontent{
+    width: 100%;
+    min-height: 87vh;
+    box-sizing: border-box;
+}
+#mainactive{
+    padding-left: 25%; 
+    transition: padding-left ease 0.5s;
+}
+#mainactive.mainshow{
+    padding-left: 5%;
+}
+
+.map{
+    width:100%; 
+    height:87vh;
+}
+
+
+#uinfo{
+    margin-left: 23%;
+    transition: margin-left ease 0.5s;
+}
+#uinfo.uishow{
+    margin-left: 3%;
+}
+#tab{
+    margin-left: 25%;
+    transition: margin-left ease 0.5s;
+}
+#tab.tabshow{
+    margin-left: 5%;
+}
+#menu{
+    position: absolute;
+    width: 20%;
+    top: 82px;
+    transition: left ease 0.5s;
+    left: 0;
+    background-color: white;
+    border-right:2px solid #b5b5b5;
+    height: 87vh;
+}
+#menu.show{
+    position: absolute;
+    width: 20%;
+    left: -20%;
+    top: 82px;
+    background-color: white;
+    height: 87vh;
+
+}
+#menubutton{
+    width: 50px;
+    height: 50px;
+    border-radius: 0 50px 50px 0;
+    top: 82px;
+    position: absolute;
+    transition: left ease 0.5s;
+    left: 20%;
+    background-color: #b5b5b5;
+}
+#menubutton:hover{
+    cursor: pointer;
+}
+#menubutton.showbut{
+    width: 50px;
+    height: 50px;
+    top: 82px;
+    position: absolute;
+    border-radius: 0 50px 50px 0;
+    left: 0;
+    background-color: #b5b5b5;
+}
+.list{
+    width: 100%;
+}
+.list ul{
+    width: 100%;
+    list-style: none;
+    margin:0;
+    padding: 0;
+}
+.list li{
+    width: 97%;
+    margin:0;
+    font-size: 14pt;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 3%;
+    background-color: white;
+    transition-duration: 0.6s;
+}
+.list li:hover{
+    background-color: #b5b5b5;
+    cursor: pointer;
+}
+#elements{
+    opacity: 1.0;
+    display: block;
+}
+.form{
+    width: 100%;
+    padding-top: 20px;
+    display: none;
+    opacity: 0.0;
+}
+.form .input input{
+    width: 100%;
+    height: 30px;
+    font-size: 14pt;
+    margin-bottom: 10px;
+    margin-top: 6px;
+}
+.form .input{
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+.form #descript{
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 130px;
+    font-size: 14pt;
+    height: 70px;
+    margin-bottom: 10px;
+    margin-top: 6px;
+}
+.form label{
+    font-size: 14pt;
+}
+.after{
+    display: none;
+    width: 100px;
+    margin: 0 auto;
+}
+.after label{
+    font-size: 14pt;
+}
+
+.pbut {
+    margin: 0 auto; 
+    margin-top: 10px; 
+    text-align: center; 
+    color: black; 
+    font-size: 16pt; 
+    background-color: #fe0; 
+    width: 250px; 
+    height: 40px;
+    transition-duration: 0.5s;
+}
+.pbut:hover{
+    background-color: white;
+    cursor: pointer
+}
+.list h2{
+    text-align: center;
+}
+
+.emenu{
+    border-bottom: 1px #b5b5b5 solid;
+}
+.elem{
+    width: 100%;
+    font-size: 16pt;
+    padding-top: 14px;
+    padding-bottom: 16px;
+    text-align: center;
+    background-color: white;
+    transition-duration: 0.6s;
+}
+.elem:hover{
+    background-color: #b5b5b5;
+    cursor: pointer
+}
+.elem1{
+    width: 100%;
+    font-size: 16pt;
+    text-align: center;
+    padding-top: 14px;
+    padding-bottom: 16px;
+    background-color: white;
+    transition-duration: 0.6s;
+}
+.elem1:hover{
+    background-color: #b5b5b5;
+    cursor: pointer
+}
+.elem1 a{
+    width: 100%;
+    color: black;
+    text-decoration: none;
+}
+.elem2{
+    width: 100%;
+    font-size: 16pt;
+    padding-top: 14px;
+    padding-bottom: 16px;
+    text-align: center;
+    background-color: white;
+    transition-duration: 0.6s;
+}
+.elem2:hover{
+    background-color: #b5b5b5;
+    cursor: pointer
+}
+.unselectk{
+    display: none;
+}
+.selectk{
+    display: block;
+}
+.kategorydiv{
+    width: 80%;
+    height: 30px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+#kategory{
+    width: 100%;
+    outline: none;
+    height: 100%;
+    font-size: 14pt;
+}
+#kategory option{
+    padding: 3px;
+    font-size: 13pt;
+}
+
+
+
+.buhinfo{
+    margin-top: 20px;
+    background-color: #bababa;
+    margin-left: 50px;
+    margin-right: 50px;
+    border-radius: 25px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.buhinfo h2{
+    margin-top: 0px;
+}
+.buhinfo table{
+    width: 100%;
+    height: 100%;
+    padding-left: 15px;
+    border-spacing: 0px;
+}
+.buhinfo .standart{
+    font-size: 13pt;
+    transition-duration: 0.5s;
+}
+.buhinfo .standart:hover{
+    background-color: #dbdbdb;
+    cursor: pointer;
+}
+.buhinfo .standart td{
+    border-bottom: 2px solid black;
+}
+.buhinfo a{
+    display: block;
+    padding-left: 10px;
+    line-height: 45px;
+}
+.buhinfo .theader{
+    font-size: 16pt;
+}
+.buhinfo .celeuser a{
+    padding-left: 10px;
+    display: block;
+    float: left;
+}
+h1{
+    margin-left: 40px;
+}
+
+
+.uinfo h2, #uinfo h2{
+    margin-left: 40px;
+}
+.uinfo ul, #uinfo ul{
+    margin-left: 30px;
+}
+.uinfo li, #uinfo li{
+    list-style: none;
+    transition-duration: 0.5s;
+}
+.uinfo li:hover, #uinfo li:hover{
+    transform: translateX(20px);
+}
+
+
+.members{
+    width: 100%;
+    height: 105px;
+    margin-bottom: 15px;
+}
+.limg {
+    width: 100px;
+    height: 100px;
+    float: left;
+    border: 1px black solid;
+}
+.limg img{
+    width: 100%;
+    height: 100%;
+}
+.maininf{
+    float: left;
+    margin-left: 8px;
+}
+.maininf .name{
+    margin-top: 8px;
+    font-size: 28pt;
+}
+.maininf .reit{
+    margin-top: 5px;
+    font-size: 16pt;
+}
+.cbut{
+    float: left;
+    margin-left: 20px;
+}
+.cbut .come{
+    width: 120px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: center;
+    height: 40px;
+    font-size: 15pt;
+    background-color: white;
+    transition-duration: 0.5s;
+}
+.cbut .come:hover{
+    background-color: #b5b5b5;
+    cursor: pointer
+}
+.cbut a{
+    color: black;
+    font-size: 15pt;
+    text-decoration: none;
+}
+
+
+
+.favo{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 30px;
+    float: right;
+}
+.favo img{
+    width: 100%;
+    height: 100%;
+}
+
+
+.searchcelebr{
+    width: 100%;
+    height: 20px;
+    margin-top: 15px;
+    margin-bottom: 14px;
+}
+#searchcelebr{
+    width: 73%;
+    height: 20px;
+    font-size: 11pt;
+    padding-left: 7px;
+    margin-left: 15px;
+    border: 1px solid #b5b5b5;
+    float: left;
+    outline: none;
+    border-radius: 7px 0 0 7px;
+}
+#searchcelebr:focus{
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+#scelebr{
+    width: 12%;
+    height: 24px;
+    border: none;
+    float: left;
+    padding: 0;
+    border-radius: 0 7px 7px 0;
+    background-color: #b5b5b5;
+    outline: none;
+    font-size: 11pt;
+}
+
+
+.search{
+    width: 100%;
+    height: 36px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+#user{
+    width: 80%;
+    height: 30px;
+    font-size: 15pt;
+    padding-left: 15px;
+    margin-left: 40px;
+    border: 2px solid #b5b5b5;
+    float: left;
+    outline: none;
+}
+#suser{
+    width: 80px;
+    height: 36px;
+    border: none;
+    float: left;
+    padding: 0;
+    background-color: #b5b5b5;
+    outline: none;
+    font-size: 14pt;
+}
+#suser:hover{
+    cursor: pointer;
+}
+.searchusers{
+    margin-top: 15px;
+    margin-left: 8%;
+    font-size: 16pt;
+    width: 92%;
+    margin-bottom: 20px;
+    display: table;
+    transition-duration: 0.5s;
+}
+.searchusers:hover {
+    transform: translateX(20px);
+}
+.searchusers a{
+    color: black;
+    text-decoration: none;
+    font-size: 26pt;
+}
+.simg{
+    width: 125px;
+    height: 125px;
+    float: left;
+    border: 1px black solid;
+}
+.simg img{
+    width: 100%;
+    height: 100%;
+}
+.sinf{
+    float: left;
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+
+
+.footer{
+    width: 100%;
+    height: 70px;
+    background-color: black;
+    float: left;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.user{
+    margin-top: 30px;
+    margin-left: 30px;
+    padding-bottom: 20px;
+    height: 180px;
+}
+.avatar{
+    float: left;
+    width: 150px;
+    max-height: 180px;
+}
+.avatar img{
+    width: 100%;
+    height: 100%;
+}
+.info{
+    float: left;
+    margin-top: 20px;
+    margin-left: 30px;
+}
+.info .name{
+    font-size: 28pt;
+    margin-bottom: 10px;
+}
+.info .mail {
+    font-size: 20pt;
+}
+.info .reiting{
+    font-size: 20pt;
+}
+.friendbut{
+    width: 120px;
+    height: 45px;
+    background-color: #b5b5b5;
+    text-align: center;
+    font-size: 14pt;
+}
+.dopinfo{
+    margin-left: 30px;
+    padding-bottom: 20px;
+}
+.left{
+    width: 100%;
+    height: 30px;
+}
+.dopinfo .left .dop{
+    float: left;
+    font-size: 18pt;
+    margin-right: 20px;
+}
+.dopinfo .friends{
+    font-size: 18pt;
+}
+
+
+
+
+.borderstoryactive{
+    position: relative;
+    width: 100%;
+    background-color: black;
+    height: 4px;
+    top: 26px;
+    display: none;
+    opacity: 0.0;
+}
+
+
+.profilemenu{
+    position: absolute;
+    display: none;
+    opacity: 0.0;
+    top: 82px;
+    right: 0;
+    z-index: 9999;
+    background-color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    width: 240px;
+    border-left: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    box-shadow: 0 20px 40px 0 rgba(0,0,0,.3);
+}
+.profilemenu .username{
+    font-size: 15pt;
+    margin-left: 20px;
+    margin-top: 8px;
+    margin-bottom: 3px;
+}
+.profilemenu .reiting{
+    font-size: 13pt;
+    margin-left: 20px;
+    margin-top: 3px;
+    margin-bottom: 8px;
+}
+.profilemenu .out{
+    margin-top: 8px;
+    padding-left: 20px;
+    transition-duration: 0.5s;
+}
+.profilemenu .out:hover {
+    transform: translateX(+7px);
+}
+.profilemenu .out a{
+    float: left;
+}
+.profilemenu .out a:nth-child(2){
+    margin-top: 4px;
+    padding-left: 5px;
+}
+.profilemenu .profilemenubut{
+    border: 2px grey solid;
+    margin-left: 20px;
+    margin-right: 20px;
+    transition-duration: 0.6s;
+}
+.profilemenu .profilemenubut a{
+    color: grey;
+    line-height: 50px;
+    text-decoration: none;
+    text-align: center;
+    transition-duration: 0.6s;
+    font-size: 14pt;
+    display: block;
+}
+.profilemenu .profilemenubut:hover{
+    cursor: pointer;
+    border: 2px black solid;
+    color: black;
+}
+.profilemenu .profilemenubut a:hover{
+    color: black;
+}
+
+
+.yetbuhmenu{
+    position: absolute;
+    z-index: 9999;
+    top: 82px;
+    color: black;
+    display: none;
+    opacity: 0.0;
+    background-color: white;
+    border-left: solid 1px #e5e5e5;
+    border-bottom: solid 1px #e5e5e5;
+    border-right: solid 1px #e5e5e5;
+    width: 320px;
+    border-radius: 0 0 7px 7px;
+    box-shadow: 0 20px 40px 0 rgba(0,0,0,.3);
+}
+.yetbuhcelebr{
+    float: left;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-bottom: 1px #b5b5b5 solid;
+    transition-duration: 0.3s;
+}
+.yetbuhcelebr:hover{
+    cursor: pointer;
+    color: black;
+    background-color: #e5e5e5;
+}
+.yetbuhcelebr .celebrname{
+    float: left;
+    font-size: 13pt;
+    width: 220px;
+}
+.yetbuhcelebr .celebrdate{
+    float: right;
+    width: 80px;
+    font-size: 12pt;
+}
+
+.yetbuhmaincelebrmenu{
+    width: 100%;
+    height: 50px;
+    float: left;
+    text-align: center;
+    transition-duration: 0.4s;
+}
+.yetbuhmaincelebrmenu a{
+    font-size: 16pt;
+    line-height: 50px;
+    display: block;
+}
+.yetbuhmaincelebrmenu a:hover{
+    color: black;
+}
+.yetbuhmaincelebrmenu:hover{
+    background-color: #e5e5e5;
+}
+
+
+
+
+.tab{
+    margin-left: 23%;
+    margin-right: 4%;
+    margin-top: 20px;
+    font-size: 14pt;
+    transition-duration: 0.5s;
+}
+.tabshow{
+    margin-left: 3%;
+    margin-right: 4%;
+    margin-top: 20px;
+    font-size: 14pt;
+}
+.calendar2{
+    margin-top: 10px;
+    width: 100%;
+    border-collapse: collapse;
+}
+.calendar2 td{
+    border: 1px grey solid;
+}
+.calendar2 thead td{
+    height: 40px;
+    padding-left: 10px;
+}
+.calendar2 .tdmain{
+    padding-top: 12px;
+    padding-left: 10px;
+    padding-bottom: 12px;
+}
+.calendar2 tbody td{
+    height: 70px;
+    padding: 0;
+    background-color: white;
+    transition-duration: 0.5s;
+}
+.calendar2 tbody td:hover{
+    cursor: pointer;
+    background-color: #e5e5e5;
+}
+.calcelebr{
+    margin-top: 5px;
+    font-size: 12pt;
+}
+.butgroup{
+    height: 40px;
+}
+.but1{
+    width: 40px;
+    height: 40px;
+    border-radius: 10px 0 0 10px;
+    border: 1px solid #b5b5b5;
+    border-right: 0;
+    padding: 0;
+    background-color: #d6d6d6;
+    text-align: center;
+    line-height: 38px;
+    font-size: 17pt;
+    margin: 0;
+    float: left;
+    transition-duration: 0.5s;
+}
+.but1:hover,.but2:hover,.but3:hover{
+    background-color: #b5b5b5;
+    cursor: pointer;
+}
+.but2{
+    width: 150px;
+    height: 40px;
+    border: 1px solid #b5b5b5;
+    text-align: center;
+    font-size: 14pt;
+    line-height: 38px;
+    background-color: #d6d6d6;
+    transition-duration: 0.5s;
+    padding: 0;
+    float: left;
+    margin: 0;
+}
+.but3{
+    width: 40px;
+    line-height: 38px;
+    height: 40px;
+    float: left;
+    font-size: 17pt;
+    border: 1px solid #b5b5b5;
+    border-left: 0;
+    background-color: #d6d6d6;
+    transition-duration: 0.5s;
+    text-align: center;
+    border-radius: 0 10px 10px 0;
+    padding: 0;
+    margin: 0;
+}
+
+
+.calmenu{
+    min-height: 60px;
+    position: absolute;
+    border: 1px #b5b5b5 solid;
+    border-bottom: 0;
+    display: none;
+    opacity: 0.0;
+    width: 320px;
+    background-color: white;
+}
+
+
+
+.bordermesactive{
+    position: relative;
+    width: 100%;
+    background-color: black;
+    height: 4px;
+    top: 18px;
+    display: none;
+    opacity: 0.0;
+}
+.mesmenu{
+    position: absolute;
+    z-index: 9859;
+    top: 82px;
+    right: 115px;
+    color: black;
+    display: none;
+    opacity: 0.0;
+    background-color: white;
+    border-left: solid 1px #e5e5e5;
+    border-bottom: solid 1px #e5e5e5;
+    border-right: solid 1px #e5e5e5;
+    width: 320px;
+    border-radius: 0 0 7px 7px;
+    box-shadow: 0 20px 40px 0 rgba(0,0,0,.3);
+}

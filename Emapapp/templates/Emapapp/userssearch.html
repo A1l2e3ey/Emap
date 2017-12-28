@@ -1,0 +1,63 @@
+{% extends 'Emapapp/base/notmap.html' %}
+{% load staticfiles %}
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<meta charset="utf-8"> 
+{% block header %}
+<script type="text/javascript">
+jQuery(document).ready(function ($) {
+	menubutton.onclick = function() {
+		x = document.getElementById("menubutton");
+		y = document.getElementById("menu");
+		z = document.getElementById("mainactive");
+		if (x.className == "menubutton"){
+			x.className = "showbut";
+			y.className = "show";
+			z.className = "mainshow";
+		}
+		else{
+			$("#menubutton").removeClass("showbut");
+			$("#menu").removeClass("show");
+			$("#mainactive").removeClass("mainshow")
+			x.className = "menubutton";
+			y.className = "menu";
+			z.className = "mainactive";
+		}
+	};
+});
+</script>
+{% endblock %}
+</head>
+<body>
+{% block maincontent %}
+<div id="mainactive" class="mainactive">
+<div class="search">
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<input type="text" id="user" name="user">
+<div><input type="submit" value="поиск" id="suser"></div>
+</form>
+</div>
+{% for i in users %}
+<div class="searchusers">
+<div class="simg">
+<a href="/profile{{ i.profile }}"><img src="{{ i.avatar.image.url }}"></a>
+</div>
+<div class="sinf">
+<div class="a">
+<a href="/profile{{ i.profile }}">{{ i }}</a>
+</div>
+<div class="cou">
+Рейтинг: {{ i.reiting.reiting }}
+</div>
+</div>
+</div>
+{% endfor %}
+</div>
+{% endblock %}
+<div class="footer">
+</div>
+</body>
+</html>

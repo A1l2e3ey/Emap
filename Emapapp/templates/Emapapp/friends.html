@@ -1,0 +1,83 @@
+{% extends 'Emapapp/base/notmap.html' %}
+{% load staticfiles %}
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<meta charset="utf-8">
+{% block header %}
+<script type="text/javascript">
+	jQuery(document).ready(function ($) {
+
+			menubutton.onclick = function() {
+				x = document.getElementById("menubutton");
+				y = document.getElementById("menu");
+				z = document.getElementById("uinfo");
+				if (x.className == "menubutton"){
+					x.className = "showbut";
+					y.className = "show";
+					z.className = "uishow";
+				}
+				else{
+					$("#menubutton").removeClass("showbut");
+					$("#menu").removeClass("show");
+					$("#uinfo").removeClass("uishow")
+					x.className = "menubutton";
+					y.className = "menu";
+					z.className = "uinfo";
+				}
+			};
+	});
+</script>
+{% endblock %}
+</head>
+<body>
+{% block maincontent %}
+<div id="uinfo" class="uinfo">
+<div class="search">
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<input type="text" id="user" name="user">
+<div><input type="submit" value="поиск" id="suser"></div>
+</form>
+</div>
+<h2>Друзья:</h2>
+<ul>
+{% for i in friend %}
+<li>
+<div class="members">
+<div class="limg"><a href="/profile{{i.friend.id}}"><img src="{{i.friend.avatar.image.url}}"></a></div>
+<div class="maininf">
+<div class="name"><a href="/profile{{i.friend.id}}">{{ i.friend.username }}</a></div>
+<div class="reit">Рейтинг: {{ i.friend.reiting.reiting }}</div>
+</div>
+</div>
+</li>
+{% endfor %}
+</ul>
+{% if id %}
+<h2>Заявки:</h2>
+<ul>
+{% for i in maybefriend %}
+<li>
+<div class="members">
+<div class="limg"><a href="/profile{{i.friend.id}}"><img src="{{i.friend.avatar.image.url}}"></a></div>
+<div class="maininf">
+<div class="name"><a href="/profile{{i.friend.id}}">{{ i.friend.username }}</a></div>
+<div class="reit">Рейтинг: {{ i.friend.reiting.reiting }}</div>
+</div>
+<div class="cbut">
+<div class="come"><a href="/add{{ i.friend.id }}">Принимаю</a></div>
+<div class="come"><a href="/notadd{{ i.friend.id }}">Не принимаю</a></div>
+</div>
+</div>
+</li>
+{% endfor %}
+</ul>
+{% endif %}
+</div>
+{% endblock %}
+<div class="footer">
+</div>
+</body>
+</html>

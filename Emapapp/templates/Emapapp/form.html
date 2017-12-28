@@ -1,0 +1,153 @@
+<html>
+<head>
+<meta charset="utf=8">
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function ($) {
+  function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie != '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = jQuery.trim(cookies[i]);
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+  var csrftoken = getCookie('csrftoken');
+  function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+  $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+              xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          }
+      }
+  });
+
+  $('#chatop').submit(function(e){
+    e.preventDefault();
+    text = document.getElementById('messagetextop').value;
+    document.getElementById('messagetextop').value = '';
+    alert('click');
+    $.ajax({
+      type: 'POST',
+      url: '/messageonline/',
+      data: { to: '1', the_post: text },
+      success: function(){
+        alert('POST');
+      }
+    });
+  });
+  setInterval(function() {
+    $.ajax({
+      type: "GET",
+      url: "/messageonline/",
+      data: { to: 'Alex228', count: 'True'},
+      success: function(ajaxcount){
+        var count = ajaxcount;
+        alert(count);
+        TRop(count);
+      }
+    });
+  }, 5000);
+  function TRop(count){
+    alert('228 ' + count);
+    if (count != 0){
+      var i = 0;
+      while(i!=count){
+        $.ajax({
+          type: "GET",
+          url: "/messageonline/",
+          data: { to: 'Alex228', count: 'False'},
+          success: function(data){
+            document.getElementById('answerop').innerHTML += '<div>' + data + '</div>';
+          }
+        });
+        i++;
+      }
+    }
+  };
+
+
+
+  $('#chat').submit(function(e){
+    e.preventDefault();
+    text = document.getElementById('messagetext').value;
+    document.getElementById('messagetext').value = '';
+    alert('click');
+    $.ajax({
+      type: 'POST',
+      url: '/messageonline/',
+      data: { to: 'Alex228', the_post: text },
+      success: function(){
+        alert('POST');
+      }
+    });
+  });
+  setInterval(function() {
+    $.ajax({
+      type: "GET",
+      url: "/messageonline/",
+      data: { to: 'Alexey', count: 'True'},
+      success: function(ajaxcount){
+        var count = ajaxcount;
+        alert('alexey ' + count);
+        TR(count);
+      }
+    });
+  }, 5000);
+  function TR(count){
+    if (count != 0){
+      var i = 0;
+      while(i!=count){
+        $.ajax({
+          type: "GET",
+          url: "/messageonline/",
+          data: { to: 'Alexey', count: 'False'},
+          success: function(data){
+            document.getElementById('answer').innerHTML += '<div>' + data + '</div>';
+          }
+        });
+        i++;
+      }
+    }
+  };
+});
+</script>
+</head>
+<body>
+<div id="answer">
+{% for i in mes %}
+<div>{{i.message}}</div>
+{% endfor %}
+</div>
+<div>
+<form id="chat" method="POST">
+{% csrf_token %}
+<textarea style="width: 200px; height: 60px;" id="messagetext"></textarea>
+<input type="submit" id="mes" value="send">
+</form>
+</div>
+
+<div id="answerop">
+{% for i in mes %}
+<div>{{i.message}}</div>
+{% endfor %}
+</div>
+<div>
+<form id="chatop" method="POST">
+{% csrf_token %}
+<textarea style="width: 200px; height: 60px;" id="messagetextop"></textarea>
+<input type="submit" id="mesop" value="send">
+</form>
+</div>
+</body>
+</html>

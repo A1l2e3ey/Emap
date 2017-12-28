@@ -1,0 +1,20 @@
+{% load staticfiles %}
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<title>Registration</title>
+</head>
+<body>
+<h1>Проверка почты</h1>
+<div class="form">
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<div>
+<label for="code">код:</label>
+<input type="text" name="code" id="code">
+</div>
+<input type="submit" name="go" value="Подтвердить">
+</div>
+</body>
+</html>
